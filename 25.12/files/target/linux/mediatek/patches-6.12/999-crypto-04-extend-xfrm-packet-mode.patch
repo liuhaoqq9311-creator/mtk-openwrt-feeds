@@ -24,7 +24,7 @@ v1: Extend XFRM packet mode for hardware offload support
  
 --- a/net/xfrm/xfrm_output.c
 +++ b/net/xfrm/xfrm_output.c
-@@ -610,38 +610,6 @@ out:
+@@ -610,40 +610,6 @@ out:
  }
  EXPORT_SYMBOL_GPL(xfrm_output_resume);
  
@@ -45,8 +45,10 @@ v1: Extend XFRM packet mode for hardware offload support
 -	nf_reset_ct(skb);
 -
 -	err = skb_dst(skb)->ops->local_out(net, sk, skb);
--	if (unlikely(err != 1))
+-	if (unlikely(err != 1)) {
+-		kfree_skb(skb);
 -		return err;
+-	}
 -
 -	/* In transport mode, network destination is
 -	 * directly reachable, while in tunnel mode,
@@ -63,7 +65,7 @@ v1: Extend XFRM packet mode for hardware offload support
  static int xfrm_output2(struct net *net, struct sock *sk, struct sk_buff *skb)
  {
  	return xfrm_output_resume(sk, skb, 1);
-@@ -761,18 +729,16 @@ int xfrm_output(struct sock *sk, struct
+@@ -761,18 +727,16 @@ int xfrm_output(struct sock *sk, struct
  			return -EHOSTUNREACH;
  		}
  

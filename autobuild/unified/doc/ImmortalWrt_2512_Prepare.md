@@ -50,3 +50,9 @@ prepare 包括 feeds 更新/安装、补丁应用、配置生成以及 PHY 固�
 - 修复补丁的 diff 检查通过（补丁上下文的空格加制表符不作为缩进错误）。OpenWrt 全树 diff 检查仍报告 MTK 原始 `wifi-scripts/files-ucode/usr/share/ucode/iwinfo.uc:118` 的一处尾随空白，未作为无关改动修复。
 - 日志存于父工作区 `artifacts/mtk-prepare-2026-10-07/prepare.log.gz`。
 - 未添加测试；没有进入完整 build/release，没有编译内核或生成/刷写固件镜像，硬件运行未验证。
+
+### 2026-10-08 内核源码 prepare 修复
+
+用户实际构建在 `999-crypto-04-extend-xfrm-packet-mode.patch` 失败：Linux 6.12.108 的 `xfrm_dev_direct_output()` 在 `local_out` 错误分支增加了 `kfree_skb(skb)` 及花括号，原删除 hunk 未包含这两行。同步调整 feed 来源及已导入目标树中的删除 hunk 和后续新文件行号，保留 MTK 删除整个 helper 的原语义，其他卸载逻辑不变。
+
+原补丁在实际失败点源码上复现失败；修复补丁全部 hunk 以 `fuzz=0` 应用成功。目标树执行 `make target/linux/prepare V=s` 退出码 0，完整内核补丁序列通过，生成 prepared 标记且没有 `.rej`。当前 `.config` 逐字节保持；未自动重启完整固件构建或刷机。本次验证证明内核源码展开/补丁应用通过，不代表内核编译、固件或 IPsec 硬件功能已验证。日志与备份位于父工作区 `artifacts/wt9103-kernel-prepare-2026-10-08/`。
