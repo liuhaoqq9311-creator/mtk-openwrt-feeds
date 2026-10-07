@@ -36,13 +36,13 @@ Signed-off-by: Weijie Gao <weijie.gao@mediatek.com>
    SECTION:=base
    CATEGORY:=Base system
    TITLE:=Block device mounting and checking
--  DEPENDS:=+ubox +libubox +libuci +libblobmsg-json +libjson-c
-+  DEPENDS:=+ubox +libubox +libuci +libblobmsg-json +libjson-c +libfstools-bootparam
+-  DEPENDS:=+ubox +libubox +libuci +libblobmsg-json +libjson-c +fstools
++  DEPENDS:=+ubox +libubox +libuci +libblobmsg-json +libjson-c +fstools +libfstools-bootparam
  endef
  
  define Package/blockd
 @@ -92,6 +100,12 @@ define Package/blockd
-   DEPENDS:=+block-mount +fstools +libubus +kmod-fs-autofs4 +libblobmsg-json +libjson-c
+   DEPENDS:=+block-mount +libubus +kmod-fs-autofs4 +libblobmsg-json +libjson-c
  endef
  
 +define Package/libfstools-bootparam/install

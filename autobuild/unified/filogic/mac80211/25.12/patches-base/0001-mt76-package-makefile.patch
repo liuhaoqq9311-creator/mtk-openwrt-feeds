@@ -15,14 +15,6 @@ index 1941460..b04e5cd 100644
  
  PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
  PKG_USE_NINJA:=0
-@@ -238,6 +238,7 @@ define KernelPackage/mt7915e
-   DEPENDS+=@PCI_SUPPORT +kmod-mt76-connac +kmod-hwmon-core +kmod-thermal +@DRIVER_11AX_SUPPORT +@KERNEL_RELAY
-   FILES:= $(PKG_BUILD_DIR)/mt7915/mt7915e.ko
-   AUTOLOAD:=$(call AutoProbe,mt7915e)
-+  MODPARAMS.mt7915e:=wed_enable=1
- endef
- 
- define KernelPackage/mt7916-firmware
 @@ -318,11 +319,12 @@ endef
  
  define KernelPackage/mt7996e
