@@ -56,3 +56,9 @@ prepare 包括 feeds 更新/安装、补丁应用、配置生成以及 PHY 固�
 用户实际构建在 `999-crypto-04-extend-xfrm-packet-mode.patch` 失败：Linux 6.12.108 的 `xfrm_dev_direct_output()` 在 `local_out` 错误分支增加了 `kfree_skb(skb)` 及花括号，原删除 hunk 未包含这两行。同步调整 feed 来源及已导入目标树中的删除 hunk 和后续新文件行号，保留 MTK 删除整个 helper 的原语义，其他卸载逻辑不变。
 
 原补丁在实际失败点源码上复现失败；修复补丁全部 hunk 以 `fuzz=0` 应用成功。目标树执行 `make target/linux/prepare V=s` 退出码 0，完整内核补丁序列通过，生成 prepared 标记且没有 `.rej`。当前 `.config` 逐字节保持；未自动重启完整固件构建或刷机。本次验证证明内核源码展开/补丁应用通过，不代表内核编译、固件或 IPsec 硬件功能已验证。日志与备份位于父工作区 `artifacts/wt9103-kernel-prepare-2026-10-08/`。
+
+### 2026-10-08 fstools extroot 补丁兼容修复
+
+MTK 的 `0001-add-support-for-dual-boot.patch` 先给 `block` 添加 `fstools-bootparam`，ImmortalWrt 既有 `100-fstools-support-extroot-for-non-MTD-rootfs_data.patch` 随后仍匹配旧链接行，导致 fstools prepare 的 CMakeLists.txt hunk 失败。目标树只将 bootparam 加入该 hunk 的删除/新增行，保留 extroot 添加 fstools 的原行为和双系统库。
+
+新增 `25.12/patches-base/3001-fstools-align-extroot-with-dual-boot.patch`，在 3000 后适配既有 extroot 补丁，避免重新 prepare 导入旧上下文。此补丁针对已记录的 ImmortalWrt 基线，不声明兼容缺少该 extroot 补丁的原版 OpenWrt。已在临时副本以 fuzz=0 应用并确认结果与目标树逐字节相同；完整 fstools prepare 退出码 0，原 CMake hunk 不再失败。编译结果与验收边界见父工作区 `specs/004-wt9103-mac80211/validation.md`；日志与配置备份位于 `artifacts/wt9103-fstools-fix-2026-10-08/`。
