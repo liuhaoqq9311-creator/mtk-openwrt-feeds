@@ -3028,19 +3028,21 @@ rename to vendor.h
 index 64f2c7c95..84935e95f 100644
 --- a/mt7996/vendor.h
 +++ b/vendor.h
-@@ -1,5 +1,9 @@
+@@ -1,10 +1,11 @@
+ /* SPDX-License-Identifier: BSD-3-Clause-Clear */
+ /*
+  * Copyright (c) 2025 MediaTek Inc. All rights reserved.
++ * Copyright (C) 2026 MediaTek Inc.
+  */
+ 
 -#ifndef __MT7996_VENDOR_H
 -#define __MT7996_VENDOR_H
-+/* SPDX-License-Identifier: BSD-3-Clause-Clear */
-+/*
-+ * Copyright (C) 2026 MediaTek Inc.
-+ */
 +#ifndef __MT76_VENDOR_H
 +#define __MT76_VENDOR_H
  
  #define MTK_NL80211_VENDOR_ID	0x0ce7
  
-@@ -11,6 +15,7 @@ enum mtk_nl80211_vendor_subcmds {
+@@ -16,6 +17,7 @@ enum mtk_nl80211_vendor_subcmds {
  	MTK_NL80211_VENDOR_SUBCMD_RFEATURE_CTRL = 0xc3,
  	MTK_NL80211_VENDOR_SUBCMD_WIRELESS_CTRL = 0xc4,
  	MTK_NL80211_VENDOR_SUBCMD_MU_CTRL = 0xc5,
@@ -3048,7 +3050,7 @@ index 64f2c7c95..84935e95f 100644
  	MTK_NL80211_VENDOR_SUBCMD_EDCCA_CTRL = 0xc7,
  	MTK_NL80211_VENDOR_SUBCMD_3WIRE_CTRL = 0xc8,
  	MTK_NL80211_VENDOR_SUBCMD_IBF_CTRL = 0xc9,
-@@ -22,10 +27,12 @@ enum mtk_nl80211_vendor_subcmds {
+@@ -27,10 +29,12 @@ enum mtk_nl80211_vendor_subcmds {
  	MTK_NL80211_VENDOR_SUBCMD_SCS_CTRL = 0xd0,
  	MTK_NL80211_VENDOR_SUBCMD_EPCS_CTRL = 0xd4,
  	MTK_NL80211_VENDOR_SUBCMD_DFS_TX_CTRL = 0xd5,
@@ -3061,7 +3063,7 @@ index 64f2c7c95..84935e95f 100644
  };
  
  enum mtk_vendor_attr_edcca_ctrl {
-@@ -87,6 +94,20 @@ enum mtk_vendor_attr_mu_ctrl {
+@@ -92,6 +96,20 @@ enum mtk_vendor_attr_mu_ctrl {
  		NUM_MTK_VENDOR_ATTRS_MU_CTRL - 1
  };
  
@@ -3082,7 +3084,7 @@ index 64f2c7c95..84935e95f 100644
  enum mtk_vendor_attr_rfeature_ctrl {
  	MTK_VENDOR_ATTR_RFEATURE_CTRL_UNSPEC,
  
-@@ -118,7 +139,7 @@ enum mtk_vendor_attr_wireless_ctrl {
+@@ -123,7 +141,7 @@ enum mtk_vendor_attr_wireless_ctrl {
  	MTK_VENDOR_ATTR_WIRELESS_CTRL_MIMO,
  	MTK_VENDOR_ATTR_WIRELESS_CTRL_AMSDU,
  	MTK_VENDOR_ATTR_WIRELESS_CTRL_AMPDU,
@@ -3091,7 +3093,7 @@ index 64f2c7c95..84935e95f 100644
  	MTK_VENDOR_ATTR_WIRELESS_CTRL_RTS_SIGTA,
  	MTK_VENDOR_ATTR_WIRELESS_CTRL_MU_EDCA, /* reserve */
  	MTK_VENDOR_ATTR_WIRELESS_CTRL_LINK_ID,
-@@ -353,6 +374,9 @@ enum mtk_vendor_attr_txpower_ctrl {
+@@ -358,6 +376,9 @@ enum mtk_vendor_attr_txpower_ctrl {
  		NUM_MTK_VENDOR_ATTRS_TXPOWER_CTRL - 1
  };
  
@@ -3101,7 +3103,7 @@ index 64f2c7c95..84935e95f 100644
  enum mtk_vendor_attr_dfs_tx_ctrl {
  	MTK_VENDOR_ATTR_DFS_TX_CTRL_UNSPEC,
  
-@@ -365,6 +389,146 @@ enum mtk_vendor_attr_dfs_tx_ctrl {
+@@ -370,6 +391,146 @@ enum mtk_vendor_attr_dfs_tx_ctrl {
  		NUM_MTK_VENDOR_ATTRS_DFS_TX_CTRL - 1
  };
  

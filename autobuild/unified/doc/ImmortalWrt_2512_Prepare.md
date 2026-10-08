@@ -62,3 +62,11 @@ prepare 包括 feeds 更新/安装、补丁应用、配置生成以及 PHY 固�
 MTK 的 `0001-add-support-for-dual-boot.patch` 先给 `block` 添加 `fstools-bootparam`，ImmortalWrt 既有 `100-fstools-support-extroot-for-non-MTD-rootfs_data.patch` 随后仍匹配旧链接行，导致 fstools prepare 的 CMakeLists.txt hunk 失败。目标树只将 bootparam 加入该 hunk 的删除/新增行，保留 extroot 添加 fstools 的原行为和双系统库。
 
 新增 `25.12/patches-base/3001-fstools-align-extroot-with-dual-boot.patch`，在 3000 后适配既有 extroot 补丁，避免重新 prepare 导入旧上下文。此补丁针对已记录的 ImmortalWrt 基线，不声明兼容缺少该 extroot 补丁的原版 OpenWrt。已在临时副本以 fuzz=0 应用并确认结果与目标树逐字节相同；完整 fstools prepare 退出码 0，原 CMake hunk 不再失败。编译结果与验收边界见父工作区 `specs/004-wt9103-mac80211/validation.md`；日志与配置备份位于 `artifacts/wt9103-fstools-fix-2026-10-08/`。
+
+### 2026-10-08 mt76 vendor 头文件补丁适配
+
+实际构建在 `0125-cp-mtk-mt76-unify-vendor-commands-for-different-chip-ge.patch` 的 `mt7996/vendor.h` → `vendor.h` 首 hunk 失败：0053 已添加 SPDX 和 2025 版权头，0125 仍匹配无文件头的旧内容。同步目标树及 `autobuild/unified/filogic/mac80211/25.12/files/package/kernel/mt76/patches/` 来源：首 hunk 匹配现有头、保留原许可证与 2025 版权，增加原补丁的 2026 版权并重命名保护宏；更新同一文件后续 hunk 行号，vendor 命令逻辑不变。
+
+完整 mt76 prepare 通过；重命名头文件七段在临时源码上修复前失败、修复后 fuzz=0 通过。执行 `make -k target/linux/prepare package/prepare V=s` 退出码 0，内核及当前配置的 191 个包 prepare 条目均通过（包含既有准备标记的复用）。该命令用于内核及 y/m 包的源码准备，不覆盖未选包和编译/运行错误；同包仍停在首个失败补丁，修复后应重跑。普通 `make prepare` 进入目标内核编译依赖链，不是批量 package prepare。
+
+备份、批量日志与头文件前后对照存于父工作区 `artifacts/wt9103-mt76-prepare-2026-10-08/`；后续编译结果见 `specs/004-wt9103-mac80211/validation.md`。未启动 world 或刷机。
